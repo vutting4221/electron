@@ -807,7 +807,8 @@ describe('BrowserWindow module', () => {
         });
       });
 
-      it('should not throw an exception', async () => {
+      // TODO (jkleinsc) renable this test on macos arm64 once https://github.com/electron/electron/issues/27323 is fixed.
+      ifit(process.platform !== 'darwin' || process.arch !== 'arm64')('should not throw an exception', async () => {
         const w2 = new BrowserWindow({ show: false, title: 'window2' });
         const w2Shown = emittedOnce(w2, 'show');
         w2.show();
@@ -3380,7 +3381,8 @@ describe('BrowserWindow module', () => {
       });
     });
 
-    ifdescribe(process.platform === 'darwin')('BrowserWindow.setFullScreen(false) when HTML fullscreen', () => {
+    // TODO (jkleinsc) enable on macos arm64 once https://github.com/electron/electron/issues/27373 is fixed.
+    ifdescribe(process.platform === 'darwin' && process.arch !== 'arm64')('BrowserWindow.setFullScreen(false) when HTML fullscreen', () => {
       it('exits HTML fullscreen when window leaves fullscreen', async () => {
         const w = new BrowserWindow();
         await w.loadURL('about:blank');
@@ -4076,7 +4078,8 @@ describe('BrowserWindow module', () => {
       });
     });
 
-    ifdescribe(process.platform === 'darwin')('fullscreen state with resizable set', () => {
+    // TODO (jkleinsc) enable macos arm64 once https://github.com/electron/electron/issues/27373 is fixed.
+    ifdescribe(process.platform === 'darwin' && process.arch !== 'arm64')('fullscreen state with resizable set', () => {
       it('resizable flag should be set to true and restored', async () => {
         const w = new BrowserWindow({ resizable: false });
         const enterFullScreen = emittedOnce(w, 'enter-full-screen');
@@ -4092,7 +4095,8 @@ describe('BrowserWindow module', () => {
       });
     });
 
-    ifdescribe(process.platform === 'darwin')('fullscreen state', () => {
+    // TODO (jkleinsc) enable macos arm64 once https://github.com/electron/electron/issues/27373 is fixed
+    ifdescribe(process.platform === 'darwin' && process.arch !== 'arm64')('fullscreen state', () => {
       it('should not cause a crash if called when exiting fullscreen', async () => {
         const w = new BrowserWindow();
 
