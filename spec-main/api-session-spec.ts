@@ -589,7 +589,7 @@ describe('session module', () => {
         expect(certificate.issuerCert.issuerCert.issuer.commonName).to.equal('Root CA');
         expect(certificate.issuerCert.issuerCert.subject.commonName).to.equal('Root CA');
         expect(certificate.issuerCert.issuerCert.issuerCert).to.equal(undefined);
-        if (process.platform !== 'darwin' || process.arch !== 'arm64') {
+        if (process.platform !== 'darwin' || process.arch !== 'arm64' || process.mas) {
           expect(['net::ERR_CERT_AUTHORITY_INVALID', 'net::ERR_CERT_COMMON_NAME_INVALID'].includes(verificationResult)).to.be.true();
         } else {
           // TODO (jkleinsc) remove condition for macos arm64 once it changes in Chromium (right now it is considered an unknown error mapped to CERT_STATUS_INVALID)
@@ -1146,7 +1146,12 @@ describe('session module', () => {
         });
       }
 
-      await expect(request()).to.be.rejectedWith(/ERR_CERT_AUTHORITY_INVALID/);
+      if (process.platform !== 'darwin' || process.arch !== 'arm64') {
+        await expect(request()).to.be.rejectedWith(/ERR_CERT_AUTHORITY_INVALID/);
+      } else {
+        // TODO (jkleinsc) remove condition for macos arm64 once it changes in Chromium (right now it is considered an unknown error mapped to CERT_STATUS_INVALID)
+        await expect(request()).to.be.rejectedWith(/ERR_CERT_INVALID/);
+      }
       ses.setSSLConfig({
         disabledCipherSuites: [0x009C]
       });
