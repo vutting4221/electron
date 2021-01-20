@@ -598,8 +598,7 @@ describe('app module', () => {
     });
   });
 
-  // TODO (jkleinsc) renable for macOS arm64 once https://github.com/electron/electron/issues/27309 is resolved
-  ifdescribe(process.platform !== 'linux' && !process.mas && (process.platform !== 'darwin' && process.arch !== 'arm64'))('app.get/setLoginItemSettings API', function () {
+  ifdescribe(process.platform !== 'linux' && !process.mas)('app.get/setLoginItemSettings API', function () {
     const updateExe = path.resolve(path.dirname(process.execPath), '..', 'Update.exe');
     const processStartArgs = [
       '--processStart', `"${path.basename(process.execPath)}"`,

@@ -116,8 +116,7 @@ describe('Notification module', () => {
     expect(n.toastXml).to.equal('<xml/>');
   });
 
-  // TODO (jkleinsc) enable this test on arm64 macos
-  ifit(process.platform === 'darwin' && process.arch !== 'arm64')('emits show and close events', async () => {
+  ifit(process.platform === 'darwin')('emits show and close events', async () => {
     const n = new Notification({
       title: 'test notification',
       body: 'test body',

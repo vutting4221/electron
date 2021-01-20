@@ -1408,8 +1408,7 @@ describe('iframe using HTML fullscreen API while window is OS-fullscreened', () 
     server.close();
   });
 
-  // TODO (jkleinsc) enable on macos arm64 once https://github.com/electron/electron/issues/27373 is fixed.
-  ifit(process.platform === 'darwin' && process.arch !== 'arm64')('can fullscreen from out-of-process iframes (OOPIFs)', async () => {
+  it('can fullscreen from out-of-process iframes (OOPIFs)', async () => {
     const fullscreenChange = emittedOnce(ipcMain, 'fullscreenChange');
     const html =
       '<iframe style="width: 0" frameborder=0 src="http://localhost:8989" allowfullscreen></iframe>';
