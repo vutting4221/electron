@@ -557,10 +557,7 @@ describe('session module', () => {
     it('accepts the request when the callback is called with 0', async () => {
       const ses = session.fromPartition(`${Math.random()}`);
       ses.setCertificateVerifyProc(({ verificationResult, errorCode }, callback) => {
-        console.log('verificationResult:', verificationResult);
-        console.log('errorCode:', errorCode);
-
-        if (process.platform !== 'darwin' || process.arch !== 'arm64') {
+        if (process.platform !== 'darwin' || process.arch !== 'arm64' || process.mas) {
           expect(['net::ERR_CERT_AUTHORITY_INVALID', 'net::ERR_CERT_COMMON_NAME_INVALID'].includes(verificationResult)).to.be.true();
           expect([-202, -200].includes(errorCode)).to.be.true();
         } else {
